@@ -75,46 +75,37 @@ function rileva_collisioni()
 	if [ $leftx -le $MINX ]; then
 		# Test bordo sinistra
 		pallinaDirX=$(($pallinaDirX * -1))
-		paplay /usr/share/sounds/gnome/default/alerts/drip.ogg &
 	elif [ $rightx -ge $MAXX ]; then
 		# Test bordo destra
 		pallinaDirX=$((pallinaDirX * -1))
-		paplay /usr/share/sounds/gnome/default/alerts/drip.ogg &
 	elif echo $mattoncini | grep -qE "\s$leftx:$pallinaY:\w"; then
 		# Mattoncino colpito da destra
 		distruggi_mattoncino $leftx $pallinaY "r"
 		pallinaDirX=$(($pallinaDirX * -1))
-		paplay /usr/share/sounds/gnome/default/alerts/glass.ogg &
 	elif echo $mattoncini | grep -qE "\s$rightx:$pallinaY:\w"; then
 		# Mattoncino colpito da sinistra
 		distruggi_mattoncino $rightx $pallinaY "l"
 		pallinaDirX=$(($pallinaDirX * -1))
-		paplay /usr/share/sounds/gnome/default/alerts/glass.ogg &
 	fi
 
 	if [ $upy -lt $MINY ]; then
 		# Test bordo sopra
 		pallinaDirY=$(($pallinaDirY * -1))
-		paplay /usr/share/sounds/gnome/default/alerts/drip.ogg &
 	elif [ $downy -ge $MAXY ]; then
 		# Test sotto
-		paplay /usr/share/sounds/KDE-Sys-Warning.ogg &
 		return 1	# Fine gioco
 	elif echo $mattoncini | grep -qE "\s$pallinaX:$upy:\w"; then
 		# Mattoncino colpito da sotto
 		distruggi_mattoncino $pallinaX $upy "d"
 		pallinaDirY=$(($pallinaDirY * -1))
-		paplay /usr/share/sounds/gnome/default/alerts/glass.ogg &
 	elif echo $mattoncini | grep -qE "\s$pallinaX:$downy:\w"; then
 		# Mattoncino colpito da sopra
 		distruggi_mattoncino $pallinaX $downy "u"
 		pallinaDirY=$(($pallinaDirY * -1))
-		paplay /usr/share/sounds/gnome/default/alerts/glass.ogg &
 	fi
 	
 	if [ $newY -eq $racchettaY -o $pallinaY -eq $racchettaY ]; then
 		if [ $newX -ge $racchettaX -a $newX -le $(expr $racchettaX + $LRACCHETTA) ]; then
-			paplay /usr/share/sounds/gnome/default/alerts/sonar.ogg &
 			pallinaDirY=$(($pallinaDirY * -1))
 			if [[ $pallinaDirX -ne $direzione ]]; then
 				pallinaDirX=$(($pallinaDirX * -1))
@@ -324,7 +315,6 @@ function loop_gioco()
 				else
 					pulisci_stato
 					scrivi_messaggio "Hai perso!"
-					paplay /usr/share/sounds/KDE-K3B-Finish-Error.ogg &
 					exit 0;
 				fi
 			fi
